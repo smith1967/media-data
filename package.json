@@ -16,6 +16,7 @@
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
+    "vue-web-cam": "^1.5.0",
     "vuetify": "^1.5.14",
     "vuetify-loader": "^1.2.2"
   }

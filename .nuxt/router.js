@@ -2,14 +2,20 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { interopDefault } from './utils'
 
+const _1beadf47 = () => interopDefault(import('..\\pages\\camera.vue' /* webpackChunkName: "pages_camera" */))
+const _b83aea04 = () => interopDefault(import('..\\pages\\index-01.vue' /* webpackChunkName: "pages_index-01" */))
+const _3a0d6860 = () => interopDefault(import('..\\pages\\list-03.vue' /* webpackChunkName: "pages_list-03" */))
 const _70f6cf92 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages_login" */))
-const _509755e0 = () => interopDefault(import('..\\pages\\media\\index.vue' /* webpackChunkName: "pages_media_index" */))
+const _1659ce8c = () => interopDefault(import('..\\pages\\login.1.vue' /* webpackChunkName: "pages_login.1" */))
+const _b3744876 = () => interopDefault(import('..\\pages\\media_\\index.vue' /* webpackChunkName: "pages_media__index" */))
+const _60d20544 = () => interopDefault(import('..\\pages\\signin.vue' /* webpackChunkName: "pages_signin" */))
 const _e8f74698 = () => interopDefault(import('..\\pages\\test.vue' /* webpackChunkName: "pages_test" */))
+const _10bc0594 = () => interopDefault(import('..\\pages\\test-computed.vue' /* webpackChunkName: "pages_test-computed" */))
 const _3b6dbe26 = () => interopDefault(import('..\\pages\\info\\about.vue' /* webpackChunkName: "pages_info_about" */))
 const _ece65718 = () => interopDefault(import('..\\pages\\info\\history.vue' /* webpackChunkName: "pages_info_history" */))
 const _c351ab90 = () => interopDefault(import('..\\pages\\info\\vision.vue' /* webpackChunkName: "pages_info_vision" */))
-const _4d821e40 = () => interopDefault(import('..\\pages\\media\\info.vue' /* webpackChunkName: "pages_media_info" */))
-const _4d01f3ec = () => interopDefault(import('..\\pages\\media\\_code.vue' /* webpackChunkName: "pages_media__code" */))
+const _19b73f8b = () => interopDefault(import('..\\pages\\media_\\info.vue' /* webpackChunkName: "pages_media__info" */))
+const _afdee682 = () => interopDefault(import('..\\pages\\media_\\_code.vue' /* webpackChunkName: "pages_media___code" */))
 const _044615c0 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */))
 
 Vue.use(Router)
@@ -87,17 +93,41 @@ export function createRouter() {
     scrollBehavior,
 
     routes: [{
+      path: "/camera",
+      component: _1beadf47,
+      name: "camera"
+    }, {
+      path: "/index-01",
+      component: _b83aea04,
+      name: "index-01"
+    }, {
+      path: "/list-03",
+      component: _3a0d6860,
+      name: "list-03"
+    }, {
       path: "/login",
       component: _70f6cf92,
       name: "login"
     }, {
-      path: "/media",
-      component: _509755e0,
-      name: "media"
+      path: "/login.1",
+      component: _1659ce8c,
+      name: "login.1"
+    }, {
+      path: "/media_",
+      component: _b3744876,
+      name: "media_"
+    }, {
+      path: "/signin",
+      component: _60d20544,
+      name: "signin"
     }, {
       path: "/test",
       component: _e8f74698,
       name: "test"
+    }, {
+      path: "/test-computed",
+      component: _10bc0594,
+      name: "test-computed"
     }, {
       path: "/info/about",
       component: _3b6dbe26,
@@ -111,13 +141,13 @@ export function createRouter() {
       component: _c351ab90,
       name: "info-vision"
     }, {
-      path: "/media/info",
-      component: _4d821e40,
-      name: "media-info"
+      path: "/media_/info",
+      component: _19b73f8b,
+      name: "media_-info"
     }, {
-      path: "/media/:code",
-      component: _4d01f3ec,
-      name: "media-code"
+      path: "/media_/:code",
+      component: _afdee682,
+      name: "media_-code"
     }, {
       path: "/",
       component: _044615c0,

@@ -253,14 +253,19 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "เพิ่มข้อมูลสื่อ" : "แก้ไขข้อมูลสื่อ";
+    },
+    items_minor_list() {
+      return minor_list.filter(function(minor) {
+        return minor.major_id == this.editedItem.major_id;
+      });
     }
   },
 
-  watch: {
-    dialog(val) {
-      val || this.close();
-    }
-  },
+  //   watch: {
+  //     dialog(val) {
+  //       val || this.close();
+  //     }
+  //   },
 
   created() {
     this.initialize();
@@ -309,19 +314,11 @@ export default {
       this.medias = data.media;
     },
     editItem(item) {
+      this.initialize();
       this.editedIndex = this.medias.indexOf(item);
       this.editedItem = Object.assign({}, item);
       // this.editedItem = JSON.parse(JSON.stringify(item))
       console.log(this.editedItem);
-      // var a = { id: 1, name: 'a', list: [] }
-      // var b = Object.assign({}, a);
-      // b.list.push(111)
-      // b.id = 1
-      // b.name = 'a'
-      // b.list = a.list
-
-      // console.log('a=', a.list)
-      // let obj = Object.assign({id: 2}, {id: 1})
       this.dialog = true;
     },
 
@@ -344,7 +341,7 @@ export default {
         Object.assign(this.medias[this.editedIndex], this.editedItem);
       } else {
         // insert
-
+        // this.medias.push(this.editedItem);
         console.log(this.editedItem);
         // return;
         let res = await fetch("http://dve.cstc.ac.th:7000/api/media/", {
@@ -355,7 +352,6 @@ export default {
           body: JSON.stringify(this.editedItem)
         });
         let data = await res.json();
-        if (data.ok) this.medias.push(this.editedItem);
         console.log("data=", data);
       }
       this.close();
