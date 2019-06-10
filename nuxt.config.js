@@ -101,8 +101,8 @@ export default {
         '@nuxtjs/proxy',
     ],
 
-    proxy: {
-        '/api': 'http://dve.cstc.ac.th:7000',
-        ws: true,
-    },
+    // proxy: {
+    //     '/api': 'https://api.cstc.ac.th',
+    //     ws: true,
+    // },
 }

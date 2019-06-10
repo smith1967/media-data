@@ -274,14 +274,14 @@ export default {
       this.getMedia();
     },
     async getSubjectType() {
-      let url = "https://dve.cstc.ac.th:7000/api/subject_type";
+      let url = "https://api.cstc.ac.th/subject_type";
       let res = await fetch(url);
       let data = await res.json();
       this.subject_type_list = data.subject_type;
     },
     async getMediaType() {
       console.log("media_type");
-      let url = "https://dve.cstc.ac.th:7000/api/media_type";
+      let url = "https://api.cstc.ac.th/media_type";
       let res = await fetch(url);
       let data = await res.json();
       this.media_type_list = data.media_type;
@@ -289,7 +289,7 @@ export default {
     async getMajor() {
       console.log("major");
       let url =
-        "https://dve.cstc.ac.th:7000/api/major/" +
+        "https://api.cstc.ac.th/major/" +
         this.editedItem.subject_type_id;
       let res = await fetch(url);
       let data = await res.json();
@@ -298,14 +298,14 @@ export default {
     async getMinor() {
       console.log("minor");
       let url =
-        "https://dve.cstc.ac.th:7000/api/minor/" + this.editedItem.major_id;
+        "https://api.cstc.ac.th/minor/" + this.editedItem.major_id;
       let res = await fetch(url);
       let data = await res.json();
       this.minor_list = data.minor;
     },
     async getMedia() {
       console.log("media all");
-      let url = "https://dve.cstc.ac.th:7000/api/mediaAll";
+      let url = "https://api.cstc.ac.th/mediaAll";
       let res = await fetch(url);
       let data = await res.json();
       this.medias = data.media;
@@ -349,7 +349,7 @@ export default {
 
         console.log(this.editedItem);
         // return;
-        let res = await fetch("https://dve.cstc.ac.th:7000/api/api/media/", {
+        let res = await fetch("https://api.cstc.ac.th/api/media/", {
           method: "post",
           headers: {
             "content-type": "application/json"
