@@ -97,4 +97,12 @@ export default {
             new VuetifyLoaderPlugin(),
         ],
     },
+    modules: [
+        '@nuxtjs/proxy',
+    ],
+
+    proxy: {
+        '/api': 'http://dve.cstc.ac.th:7000',
+        ws: true,
+    },
 }
