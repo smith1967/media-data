@@ -287,18 +287,16 @@ export default {
       this.media_type_list = data.media_type;
     },
     async getMajor() {
-      console.log("major");
+      console.log("major", this.editedItem.subject_type_id);
       let url =
-        "https://api.cstc.ac.th/major/" +
-        this.editedItem.subject_type_id;
+        "https://api.cstc.ac.th/major/" + this.editedItem.subject_type_id;
       let res = await fetch(url);
       let data = await res.json();
       this.major_list = data.major;
     },
     async getMinor() {
       console.log("minor");
-      let url =
-        "https://api.cstc.ac.th/minor/" + this.editedItem.major_id;
+      let url = "https://api.cstc.ac.th/minor/" + this.editedItem.major_id;
       let res = await fetch(url);
       let data = await res.json();
       this.minor_list = data.minor;
