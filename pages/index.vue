@@ -10,13 +10,15 @@
         </v-toolbar-items>
         <v-menu class="hidden-md-and-up">
           <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
-          <v-list>
+          <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{ item.title }}</v-btn>
+          <v-btn @click="doLogout">ออกจากระบบ</v-btn>
+          <!-- <v-list>
             <v-list-tile v-for="item in menu" :key="item.icon" :to="item.link">
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-          </v-list>
+          </v-list>-->
         </v-menu>
       </v-toolbar>
       <v-toolbar flat color="white">
@@ -56,7 +58,7 @@
                   <v-flex xs12 sm12 md12>
                     <v-text-field
                       v-model="editedItem.citizen_id"
-                      v-show="editedIndex==-1"
+                      v-show="false"
                       label="รหัสบัตรประชาชน"
                     ></v-text-field>
                   </v-flex>
@@ -265,7 +267,15 @@ export default {
   },
 
   created() {
+    if (window.sessionStorage.getItem("user")) {
+      let user = window.sessionStorage.getItem("user");
+      let data = JSON.parse(user);
+      console.log(data);
+      this.editedItem.citizen_id = data.citizen_id;
+      console.log("citizen_id", this.editedItem.citizen_id);
+    }
     this.initialize();
+    // console.log("citizen_id ", window.sessionStorage.getItem("citizen_id"));
   },
 
   methods: {
@@ -305,7 +315,7 @@ export default {
     },
     async getMedia() {
       console.log("media all");
-      let url = "https://api.cstc.ac.th/mediaAll";
+      let url = "https://api.cstc.ac.th/media/" + this.editedItem.citizen_id;
       let res = await fetch(url);
       let data = await res.json();
       this.medias = data.media;
@@ -344,8 +354,9 @@ export default {
     async save() {
       if (this.editedIndex > -1) {
         // update
-        if (this.editedItem.citizen_id == "") return;
         console.log(this.editedItem);
+        if (this.editedItem.citizen_id == "") return;
+
         // return;
         let res = await fetch("https://api.cstc.ac.th/api/media/", {
           method: "put",
@@ -359,8 +370,9 @@ export default {
           Object.assign(this.medias[this.editedIndex], this.editedItem);
       } else {
         // insert
-        if (this.editedItem.citizen_id == "") return;
         console.log(this.editedItem);
+        if (this.editedItem.citizen_id == "") return;
+
         // return;
         let res = await fetch("https://api.cstc.ac.th/api/media/", {
           method: "post",

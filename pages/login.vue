@@ -133,7 +133,7 @@ export default {
         this.text_info = data.error;
         return;
       }
-
+      console.log("user = ", JSON.stringify(data.user));
       //1. จำ user /login
       //window.localStorage.setItem('user', JSON.stringify(res.data.user))// แบบนี้ เก็บถาวร
       window.sessionStorage.setItem("user", JSON.stringify(data.user)); // แบบนี้หาย เมื่อ restart หรือ ปิด  browser
