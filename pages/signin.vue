@@ -165,7 +165,7 @@ export default {
         //1. จำ user /login
         //window.localStorage.setItem('user', JSON.stringify(res.data.user))// แบบนี้ เก็บถาวร
         window.sessionStorage.setItem("user", JSON.stringify(res.data.user)); // แบบนี้หาย เมื่อ restart หรือ ปิด  browser
-        this.$router.push("/signin");
+        this.$router.push("/login");
       } else {
         console.log("form invalid");
       }
