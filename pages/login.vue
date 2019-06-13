@@ -1,65 +1,143 @@
 <template>
-  <v-layout>
-    <v-flex xs12 sm4 text-xs-center>
-      <div>
-        <h1>WELCOME {{ name }}</h1>
-        <div>
-          <v-text-field v-model="user" prepend-icon="face" placeholder="ชื่อผู้ใช้"></v-text-field>
-        </div>
-        <div>
-          <v-text-field
-            v-model="pass"
-            prepend-icon="vpn_key"
-            placeholder="รหัสผ่าน"
-            type="password"
-          ></v-text-field>
-        </div>
-        <!-- <div>
-          Remember :
-          <input type="checkbox" v-model="remember" id>
-        </div>-->
-        <div>
-          <v-btn small color="primary" @click="doLogin">เข้าระบบ</v-btn>
-        </div>
-        <div>
-          <button :disabled="!valid" @click="doLogin">Login</button>
-          <button v-if="valid" @click="doLogin">Login</button>
-          <button v-show="valid" @click="doLogin">Login</button>
-          <div v-if="!valid">Enter User & password</div>
-        </div>
-      </div>
-    </v-flex>
-  </v-layout>
-</template>
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md4>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>กรอกข้อมูล/ลงทะเบียน เข้าระบบ</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn :href="source" icon large target="_blank" v-on="on">
+                  <v-icon large>check_circle</v-icon>
+                </v-btn>
+              </template>
+              <span>ลงทะเบียน</span>
+            </v-tooltip>
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  large
+                  href="https://codepen.io/johnjleider/pen/wyYVVj"
+                  target="_blank"
+                  v-on="on"
+                >
+                  <v-icon large>mdi-codepen</v-icon>
+                </v-btn>
+              </template>
+              <span>Codepen</span>
+            </v-tooltip>
+          </v-toolbar>
+          <v-card-text>
+            <v-alert v-model="alert" dismissible :type="valid ? 'success' : 'error'">{{ text_info }}</v-alert>
 
+            <v-form>
+              <v-text-field
+                prepend-icon="person"
+                v-model="email"
+                :rules="emailRules"
+                label="อีเมล์"
+                required
+              ></v-text-field>
+
+              <!-- <v-text-field prepend-icon="person" name="email" label="อีเมล์" type="text"></v-text-field> -->
+              <v-text-field
+                v-model="password"
+                :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                :rules="[rules.required, rules.password]"
+                :type="show1 ? 'text' : 'password'"
+                name="input-10-1"
+                label="รหัสผ่าน"
+                hint="ต้องเริ่มต้นด้วยอักษรอักษรภาษาอังกฤษตัวพิมพ์เล็ก และประกอบด้วยอักษรภาษาอังกฤษหรือตัวเลขอย่างน้อย 6 ตัวอักษร"
+                counter
+                prepend-icon="lock"
+                @click:append="show1 = !show1"
+              ></v-text-field>
+              <!-- <v-text-field
+                v-model="password"
+                :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                :rules="[rules.required, rules.min, rules.password]"
+                :type="show1 ? 'text' : 'password'"
+                name="input-10-1"
+                label="รหัสผ่าน"
+                hint="ต้องเริ่มต้นด้วยอักษรอักษรภาษาอังกฤษตัวพิมพ์เล็ก และประกอบด้วยอักษรภาษาอังกฤษและตัวเลขอย่างน้อย 6 ตัวอักษร"
+                counter
+                prepend-icon="lock"
+                @click:append="show1 = !show1"
+              ></v-text-field>-->
+              <!-- <v-text-field
+                id="password"
+                prepend-icon="lock"
+                name="password"
+                label="Password"
+                type="password"
+              ></v-text-field>-->
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="success" @click="$router.push('/signin')">ลงทะเบียน</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="doLogin">เข้าระบบ</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
+</template>
 <script>
-// {} = object หรือ open & close block tag
-// [] = array
-// export data for nuxt, data is function
 export default {
-  layout: "login",
-  data: function() {
-    // data ต้อง return {} = object
+  props: {
+    source: "signin"
+  },
+  layout: "center",
+  data() {
     return {
-      user: "Smith",
-      pass: "",
-      remember: true
+      alert: false,
+      show1: false,
+      valid: true,
+      name: "",
+      password: "",
+      text_info: "",
+      rules: {
+        required: value => !!value || "กรุณาใส่รหัสผ่าน",
+        min: v => v.length >= 6 || "ไม่น้อยกว่า 6 ตัวอักษร",
+        password: v => /^[a-z]\w{5,}/.test(v) || "รหัสผ่านไม่ถูกต้อง"
+        // emailMatch: () => "อีเมล์และรหัสผ่านไม่ถูกต้อง",
+      },
+      email: "",
+      emailRules: [
+        v => !!v || "กรุณาใส่อีเมล์",
+        v => /^[^@]+@[^@]+\.[^@]+$/.test(v) || "กรุณาใส่อีเมล์ให้ถูกต้อง"
+      ]
     };
   },
-  computed: {
-    name: function() {
-      return this.user.toUpperCase();
-    },
-    valid: function() {
-      return this.user.length > 0 && this.pass.length > 3;
-    }
-  },
   methods: {
-    doLogin: function() {
-      this.pass = "test";
-      // this.$router.push('/student/100')
-      // replace ไม่สามารถกด back ได้
-      this.$router.replace("student/100");
+    async doLogin() {
+      let user = {
+        email: this.email,
+        password: this.password
+      };
+      let res = await fetch("https://api.cstc.ac.th/login/", {
+        method: "post",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(user)
+      });
+      let data = await res.json();
+      console.log(data);
+      if (data.ok === 0) {
+        this.valid = false;
+        this.alert = true;
+        this.text_info = data.error;
+        return;
+      }
+
+      //1. จำ user /login
+      //window.localStorage.setItem('user', JSON.stringify(res.data.user))// แบบนี้ เก็บถาวร
+      window.sessionStorage.setItem("user", JSON.stringify(data.user)); // แบบนี้หาย เมื่อ restart หรือ ปิด  browser
+      this.$router.push("/");
     }
   }
 };

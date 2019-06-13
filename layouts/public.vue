@@ -22,10 +22,10 @@ export default {
     };
   },
   created() {
-    let user = window.sessionStorage.getItem("user"); // data is string
-    if (!user) {
-      return this.$router.replace("/login");
-    }
+    // let user = window.sessionStorage.getItem("user"); // data is string
+    // if (!user) {
+    //   return this.$router.replace("/login");
+    // }
     //  this.user = JSON.parse(user); // แปลงกลับเป็น object ถ้า
     // this.$router.replace("/signin")
     // เก็บใส่ store ไม่ต้องเขียนแบบนี้ทุกหน้า

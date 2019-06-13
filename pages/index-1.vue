@@ -1,23 +1,28 @@
 <template>
   <div>
     <v-app>
-      <v-toolbar color="primary">
-        <v-toolbar-title>ระบบฐานข้อมูลสื่อการเรียนการสอน</v-toolbar-title>
+      <v-toolbar dark color="primary">
+        <v-toolbar-side-icon></v-toolbar-side-icon>
+
+        <v-toolbar-title class="white--text">ระบบฐานข้อมูลสื่อ</v-toolbar-title>
+
         <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{ item.title }}</v-btn>
-          <v-btn @click="doLogout">ออกจากระบบ</v-btn>
-        </v-toolbar-items>
-        <v-menu class="hidden-md-and-up">
-          <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
-          <v-list>
-            <v-list-tile v-for="item in menu" :key="item.icon" :to="item.link">
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
+
+        <v-btn icon>
+          <v-icon>search</v-icon>
+        </v-btn>
+
+        <v-btn icon>
+          <v-icon>apps</v-icon>
+        </v-btn>
+
+        <v-btn icon>
+          <v-icon>refresh</v-icon>
+        </v-btn>
+
+        <v-btn icon>
+          <v-icon>more_vert</v-icon>
+        </v-btn>
       </v-toolbar>
       <v-toolbar flat color="white">
         <v-toolbar-title>
@@ -34,10 +39,7 @@
 
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn absolute dark fab centered right color="success" v-on="on">
-              <v-icon>add</v-icon>
-            </v-btn>
-            <!-- <v-btn color="primary" dark class="mb-2" v-on="on">เพิ่มข้อมูลสื่อ</v-btn> -->
+            <v-btn color="primary" dark class="mb-2" v-on="on">เพิ่มข้อมูลสื่อ</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -48,7 +50,7 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md6>
-                    <v-radio-group v-model="editedItem.course_level" @click="show_lv" row>
+                    <v-radio-group v-model="editedItem.course_level" row>
                       <v-radio label="ปวช." value="ปวช." name="course_level"></v-radio>
                       <v-radio label="ปวส." value="ปวส." name="course_level"></v-radio>
                     </v-radio-group>
@@ -126,7 +128,7 @@
                     <v-textarea
                       name="input-7-1"
                       label="หมายเหตุ"
-                      value
+                      value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
                       hint="ข้อมูลเพิ่มเติม"
                       v-model="editedItem.note"
                     ></v-textarea>
@@ -136,7 +138,7 @@
                     <v-text-field v-model="editedItem.link_google" label="ลิ้งค์ข้อมูล"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-radio-group v-model="editedItem.e_training" @click="show_lv">
+                    <v-radio-group v-model="editedItem.e_training">
                       <v-radio
                         label="สื่อสามารถใช้งานเป็น E-Training ได้ทันที"
                         value="ทันที"
@@ -159,20 +161,19 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="error" flat @click="close">ปิดหน้าต่าง</v-btn>
-              <v-btn color="primary" flat @click="save">บันทึก</v-btn>
+              <v-btn color="blue darken-1" flat @click="close">ปิดหน้าต่าง</v-btn>
+              <v-btn color="blue darken-1" flat @click="save">บันทึก</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
       <v-data-table :headers="headers" :items="medias" :search="search" class="elevation-1">
         <template v-slot:items="props">
-          <!-- <td>{{ props.item.name }}</td> -->
+          <td>{{ props.item.id }}</td>
           <td class="text-xs-right">{{ props.item.media_type_id }}</td>
           <td class="text-xs-right">{{ props.item.media_name }}</td>
           <td class="text-xs-right">{{ props.item.amount }}</td>
-          <td class="text-xs-right">{{ props.item.link_google }}</td>
-          <!-- <td class="text-xs-right">{{ props.item.note }}</td> -->
+          <td class="text-xs-right">{{ props.item.note }}</td>
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
             <v-icon small @click="deleteItem(props.item)">delete</v-icon>
@@ -195,17 +196,16 @@ export default {
     dialog: false,
     course_level: "ปวช.",
     headers: [
-      // {
-      //   text: "ที่",
-      //   align: "left",
-      //   sortable: false,
-      //   value: "name"
-      // },
+      {
+        text: "ที่",
+        align: "left",
+        sortable: false,
+        value: "name"
+      },
       { text: "ประเภทสื่อ", align: "left", value: "media_type_id" },
       { text: "ชื่อผลงาน/สื่อการสอน", align: "left", value: "media_name" },
       { text: "จำนวน", value: "amount" },
-      // { text: "หมายเหตุ", align: "left", value: "note" },
-      { text: "ลิ้งค์", align: "left", value: "link_google" },
+      { text: "หมายเหตุ", align: "left", value: "note" },
       { text: "กระทำ", value: "name", sortable: false }
     ],
     medias: [],
@@ -240,16 +240,14 @@ export default {
       link_google: "",
       e_training: "พัฒนาต่อ"
     },
-    subject_type_list: [],
+    subject_type_list: [
+      // { subject_type_code: "10", subject_type_name: "อุตสาหกรรม" },
+      // { subject_type_code: "20", subject_type_name: "พาณิชย์" }
+    ],
     subject_code_list: [],
     major_list: [],
     minor_list: [],
-    media_type_list: [],
-    menu: [
-      { icon: "home", title: "หน้าหลัก", link: "/" },
-      { icon: "info", title: "ลงทะเบียน", link: "signin" },
-      { icon: "key", title: "เข้าระบบ", link: "login" }
-    ]
+    media_type_list: []
   }),
 
   computed: {
@@ -374,16 +372,6 @@ export default {
         console.log("data=", data);
       }
       this.close();
-    },
-    doLogout() {
-      window.sessionStorage.clear();
-      return this.$router.replace("/login");
-    },
-    show_lv() {
-      console.log(this.editedItem.course_level);
-    },
-    show_st() {
-      console.log(this.editedItem.subject_type_id);
     }
   }
 };
