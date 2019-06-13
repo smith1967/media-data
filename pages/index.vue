@@ -337,10 +337,15 @@ export default {
       this.dialog = true;
     },
 
-    deleteItem(item) {
+    async deleteItem(item) {
       console.log(item);
       const index = this.medias.indexOf(item);
-      confirm("ยืนยันการลบข้อมูล?") && this.medias.splice(index, 1);
+      confirm("ยืนยันการลบข้อมูล?") && this.medias.splice(index, -1);
+      let res = await fetch("https://media.cstc.ac.th/api/media/" + item.id, {
+        method: "delete"
+      });
+      let data = await res.json();
+      console.log("data=", data);
     },
 
     close() {
