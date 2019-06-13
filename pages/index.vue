@@ -340,7 +340,8 @@ export default {
     async deleteItem(item) {
       console.log(item);
       const index = this.medias.indexOf(item);
-      confirm("ยืนยันการลบข้อมูล?") && this.medias.splice(index, -1);
+      confirm("ยืนยันการลบข้อมูล?") && this.medias.splice(index, 1);
+      console.log(index);
       let res = await fetch("https://media.cstc.ac.th/api/media/" + item.id, {
         method: "delete"
       });
