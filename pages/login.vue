@@ -112,6 +112,14 @@ export default {
       ]
     };
   },
+  created() {
+    console.log("created");
+    let user = window.sessionStorage.getItem("user"); // data is string
+    console.log("user = ", user);
+    if (user) {
+      return this.$router.replace("/");
+    }
+  },
   methods: {
     async doLogin() {
       let user = {

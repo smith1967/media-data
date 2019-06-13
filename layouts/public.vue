@@ -22,12 +22,14 @@ export default {
     };
   },
   created() {
-    // let user = window.sessionStorage.getItem("user"); // data is string
-    // if (!user) {
-    //   return this.$router.replace("/login");
-    // }
-    //  this.user = JSON.parse(user); // แปลงกลับเป็น object ถ้า
-    // this.$router.replace("/signin")
+    console.log("created");
+    let user = window.sessionStorage.getItem("user"); // data is string
+    console.log("user = ", user);
+    if (user) {
+      return this.$router.replace("/");
+    }
+    // this.user = JSON.parse(user); // แปลงกลับเป็น object ถ้า
+    // this.$router.replace("/");
     // เก็บใส่ store ไม่ต้องเขียนแบบนี้ทุกหน้า
     // console.log('user_status=>',this.user.userstatus)
     // if(this.user.userstatus == 11){
