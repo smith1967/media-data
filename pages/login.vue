@@ -54,25 +54,10 @@
                 prepend-icon="lock"
                 @click:append="show1 = !show1"
               ></v-text-field>
-              <!-- <v-text-field
-                v-model="password"
-                :append-icon="show1 ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.min, rules.password]"
-                :type="show1 ? 'text' : 'password'"
-                name="input-10-1"
-                label="รหัสผ่าน"
-                hint="ต้องเริ่มต้นด้วยอักษรอักษรภาษาอังกฤษตัวพิมพ์เล็ก และประกอบด้วยอักษรภาษาอังกฤษและตัวเลขอย่างน้อย 6 ตัวอักษร"
-                counter
-                prepend-icon="lock"
-                @click:append="show1 = !show1"
-              ></v-text-field>-->
-              <!-- <v-text-field
-                id="password"
-                prepend-icon="lock"
-                name="password"
-                label="Password"
-                type="password"
-              ></v-text-field>-->
+              <v-alert
+                :value="true"
+                type="info"
+              >ต้องการข้อมูลเพิ่มเติม กรุณาติดต่อที่ กลุ่มนวัตกรรมการพัฒนาบุคลากร สสอ. 02 5093654 ต่อ 1301 น.ส. ธณัทอร วรรณจรูณ065-3562364</v-alert>
             </v-form>
           </v-card-text>
           <v-card-actions>
