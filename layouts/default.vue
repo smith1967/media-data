@@ -1,12 +1,7 @@
 <template>
   <v-app>
     <v-container>
-      <!-- <v-navigation-drawer v-model="drawer" app left/>
-      <v-toolbar app>
-        <v-toolbar-title>Welcome</v-toolbar-title>
-        <v-spacer/>
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
-      </v-toolbar>-->
+      <Menu/>
       <v-content>
         <nuxt/>
       </v-content>
@@ -14,10 +9,15 @@
   </v-app>
 </template>
 <script>
+import Menu from "~/components/menu";
 export default {
+  components: {
+    Menu
+  },
   data() {
     return {
       // user: {},
+
       drawer: true
     };
   },

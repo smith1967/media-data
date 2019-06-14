@@ -1,198 +1,165 @@
 <template>
   <div>
-    <v-app>
-      <v-toolbar color="primary">
-        <v-toolbar-title>ระบบฐานข้อมูลสื่อการเรียนการสอน</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{ item.title }}</v-btn>
-          <!-- <v-btn @click="doLogout">ออกจากระบบ</v-btn> -->
-        </v-toolbar-items>
-        <v-menu class="hidden-md-and-up">
-          <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
-          <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{ item.title }}</v-btn>
-          <!-- <v-btn @click="doLogout">ออกจากระบบ</v-btn> -->
-          <v-list>
-            <v-list-tile v-for="item in menu" :key="item.icon" :to="item.link">
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile @click="doLogout">
-              <v-list-tile-content>
-                <v-list-tile-title>ออกจากระบบ</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
-      </v-toolbar>
-      <v-toolbar flat color="white">
-        <v-toolbar-title>
-          <v-text-field
-            v-model="search"
-            append-icon="search"
-            label="ค้นหา"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-toolbar-title>
-        <v-divider class="mx-2" inset vertical></v-divider>
-        <v-spacer></v-spacer>
+    <v-toolbar flat color="white">
+      <v-toolbar-title>
+        <v-text-field v-model="search" append-icon="search" label="ค้นหา" single-line hide-details></v-text-field>
+      </v-toolbar-title>
+      <v-divider class="mx-2" inset vertical></v-divider>
+      <v-spacer></v-spacer>
 
-        <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ on }">
-            <v-btn absolute dark fab centered right color="success" v-on="on">
-              <v-icon>add</v-icon>
-            </v-btn>
-            <!-- <v-btn color="primary" dark class="mb-2" v-on="on">เพิ่มข้อมูลสื่อ</v-btn> -->
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
+      <v-dialog v-model="dialog" max-width="500px">
+        <template v-slot:activator="{ on }">
+          <v-btn absolute dark fab centered right color="success" v-on="on">
+            <v-icon>add</v-icon>
+          </v-btn>
+          <!-- <v-btn color="primary" dark class="mb-2" v-on="on">เพิ่มข้อมูลสื่อ</v-btn> -->
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">{{ formTitle }}</span>
+          </v-card-title>
 
-            <v-card-text>
-              <v-container grid-list-md>
-                <v-layout wrap>
-                  <v-flex xs12 sm6 md6>
-                    <v-radio-group v-model="editedItem.course_level" @click="show_lv" row>
-                      <v-radio label="ปวช." value="ปวช." name="course_level"></v-radio>
-                      <v-radio label="ปวส." value="ปวส." name="course_level"></v-radio>
-                    </v-radio-group>
-                  </v-flex>
-                  <v-flex xs12 sm12 md12>
-                    <v-text-field
-                      v-model="editedItem.citizen_id"
-                      v-show="false"
-                      label="รหัสบัตรประชาชน"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-select
-                      :items="subject_type_list"
-                      label="ประเภทวิชา"
-                      v-model="editedItem.subject_type_id"
-                      item-text="subject_type_name"
-                      item-value="subject_type_id"
-                      @change="getMajor"
-                    ></v-select>
-                    <!-- <v-text-field v-model="editedItem.subject_type" label="ประเภทวิชา"></v-text-field> -->
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-autocomplete
-                      v-model="editedItem.major_id"
-                      :items="major_list"
-                      item-text="major_name"
-                      item-value="major_id"
-                      label="สาขาวิชา"
-                      @change="getMinor"
-                    ></v-autocomplete>
-                    <!-- <v-text-field v-model="editedItem.major_id" label="สาขาวิชา"></v-text-field> -->
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-autocomplete
-                      v-model="editedItem.minor_id"
-                      :items="minor_list"
-                      item-text="minor_name"
-                      item-value="minor_id"
-                      label="สาขางาน"
-                    ></v-autocomplete>
-                    <!-- <v-text-field v-model="editedItem.minor_id" label="สาขางาน"></v-text-field> -->
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-autocomplete
-                      v-model="editedItem.media_type_id"
-                      :items="media_type_list"
-                      item-text="media_type_name"
-                      item-value="media_type_id"
-                      :label="`ประเภทสื่อ`"
-                    ></v-autocomplete>
-                    <!-- <v-text-field v-model="editedItem.media_type" label="ประเภทสื่อ"></v-text-field> -->
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-text-field v-model="editedItem.subject_code" label="รหัสวิชา"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm6 md6>
-                    <v-text-field v-model="editedItem.subject_name" label="ชื่อวิชา"></v-text-field>
-                  </v-flex>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 md6>
+                  <v-radio-group v-model="editedItem.course_level" @click="show_lv" row>
+                    <v-radio label="ปวช." value="ปวช." name="course_level"></v-radio>
+                    <v-radio label="ปวส." value="ปวส." name="course_level"></v-radio>
+                  </v-radio-group>
+                </v-flex>
+                <v-flex xs12 sm12 md12>
+                  <v-text-field
+                    v-model="editedItem.citizen_id"
+                    v-show="false"
+                    label="รหัสบัตรประชาชน"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md6>
+                  <v-select
+                    :items="subject_type_list"
+                    label="ประเภทวิชา"
+                    v-model="editedItem.subject_type_id"
+                    item-text="subject_type_name"
+                    item-value="subject_type_id"
+                    @change="getMajor"
+                  ></v-select>
+                  <!-- <v-text-field v-model="editedItem.subject_type" label="ประเภทวิชา"></v-text-field> -->
+                </v-flex>
+                <v-flex xs12 sm6 md6>
+                  <v-autocomplete
+                    v-model="editedItem.major_id"
+                    :items="major_list"
+                    item-text="major_name"
+                    item-value="major_id"
+                    label="สาขาวิชา"
+                    @change="getMinor"
+                  ></v-autocomplete>
+                  <!-- <v-text-field v-model="editedItem.major_id" label="สาขาวิชา"></v-text-field> -->
+                </v-flex>
+                <v-flex xs12 sm6 md6>
+                  <v-autocomplete
+                    v-model="editedItem.minor_id"
+                    :items="minor_list"
+                    item-text="minor_name"
+                    item-value="minor_id"
+                    label="สาขางาน"
+                  ></v-autocomplete>
+                  <!-- <v-text-field v-model="editedItem.minor_id" label="สาขางาน"></v-text-field> -->
+                </v-flex>
+                <v-flex xs12 sm6 md6>
+                  <v-autocomplete
+                    v-model="editedItem.media_type_id"
+                    :items="media_type_list"
+                    item-text="media_type_name"
+                    item-value="media_type_id"
+                    :label="`ประเภทสื่อ`"
+                  ></v-autocomplete>
+                  <!-- <v-text-field v-model="editedItem.media_type" label="ประเภทสื่อ"></v-text-field> -->
+                </v-flex>
+                <v-flex xs12 sm6 md6>
+                  <v-text-field v-model="editedItem.subject_code" label="รหัสวิชา"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md6>
+                  <v-text-field v-model="editedItem.subject_name" label="ชื่อวิชา"></v-text-field>
+                </v-flex>
 
-                  <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="editedItem.media_name" label="ชื่อผลงาน/สื่อการสอน"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm12 md12>
-                    <v-slider
-                      v-model="editedItem.amount"
-                      :min="1"
-                      :max="50"
-                      label="จำนวน"
-                      thumb-label
-                    ></v-slider>
-                    <!-- <v-text-field v-model="editedItem.amount" label="จำนวน"></v-text-field> -->
-                  </v-flex>
-                  <v-flex xs12 sm12 md12>
-                    <v-textarea
-                      name="input-7-1"
-                      label="หมายเหตุ"
-                      value
-                      hint="ข้อมูลเพิ่มเติม"
-                      v-model="editedItem.note"
-                    ></v-textarea>
-                    <!-- <v-text-field v-model="editedItem.note" label="หมายเหตุ"></v-text-field> -->
-                  </v-flex>
-                  <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="editedItem.link_google" label="ลิ้งค์ข้อมูล"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 sm12 md12>
-                    <v-radio-group v-model="editedItem.e_training" @click="show_lv">
-                      <v-radio
-                        label="สื่อสามารถใช้งานเป็น E-Training ได้ทันที"
-                        value="ทันที"
-                        name="e_train"
-                      ></v-radio>
-                      <v-radio
-                        label="สื่อที่มีต้องพัฒนาเพิ่มเติมเพื่อเข้าระบบ E-Training"
-                        value="พัฒนาต่อ"
-                        name="e_train"
-                      ></v-radio>
-                    </v-radio-group>
-                  </v-flex>
-                  <!-- <v-flex xs12 sm6 md6>
+                <v-flex xs12 sm12 md12>
+                  <v-text-field v-model="editedItem.media_name" label="ชื่อผลงาน/สื่อการสอน"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm12 md12>
+                  <v-slider
+                    v-model="editedItem.amount"
+                    :min="1"
+                    :max="50"
+                    label="จำนวน"
+                    thumb-label
+                  ></v-slider>
+                  <!-- <v-text-field v-model="editedItem.amount" label="จำนวน"></v-text-field> -->
+                </v-flex>
+                <v-flex xs12 sm12 md12>
+                  <v-textarea
+                    name="input-7-1"
+                    label="หมายเหตุ"
+                    value
+                    hint="ข้อมูลเพิ่มเติม"
+                    v-model="editedItem.note"
+                  ></v-textarea>
+                  <!-- <v-text-field v-model="editedItem.note" label="หมายเหตุ"></v-text-field> -->
+                </v-flex>
+                <v-flex xs12 sm12 md12>
+                  <v-text-field v-model="editedItem.link_google" label="ลิ้งค์ข้อมูล"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm12 md12>
+                  <v-radio-group v-model="editedItem.e_training" @click="show_lv">
+                    <v-radio
+                      label="สื่อสามารถใช้งานเป็น E-Training ได้ทันที"
+                      value="ทันที"
+                      name="e_train"
+                    ></v-radio>
+                    <v-radio
+                      label="สื่อที่มีต้องพัฒนาเพิ่มเติมเพื่อเข้าระบบ E-Training"
+                      value="พัฒนาต่อ"
+                      name="e_train"
+                    ></v-radio>
+                  </v-radio-group>
+                </v-flex>
+                <!-- <v-flex xs12 sm6 md6>
                       
                     <v-text-field v-model="editedItem.e_training" label="E-training"></v-text-field>
-                  </v-flex>-->
-                </v-layout>
-              </v-container>
-            </v-card-text>
+                </v-flex>-->
+              </v-layout>
+            </v-container>
+          </v-card-text>
 
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="error" flat @click="close">ปิดหน้าต่าง</v-btn>
-              <v-btn color="primary" flat @click="save">บันทึก</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-      <v-data-table :headers="headers" :items="medias" :search="search" class="elevation-1">
-        <template v-slot:items="props">
-          <!-- <td>{{ props.item.name }}</td> -->
-          <td class="text-xs-right">{{ props.item.media_type_id }}</td>
-          <td class="text-xs-right">{{ props.item.media_name }}</td>
-          <td class="text-xs-right">{{ props.item.amount }}</td>
-          <td class="text-xs-right">{{ props.item.link_google }}</td>
-          <!-- <td class="text-xs-right">{{ props.item.note }}</td> -->
-          <td class="justify-center layout px-0">
-            <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-            <v-icon small @click="deleteItem(props.item)">delete</v-icon>
-          </td>
-        </template>
-        <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
-        </template>
-        <template
-          v-slot:pageText="props"
-        >แถวที่ {{ props.pageStart }} - {{ props.pageStop }} จาก {{ props.itemsLength }}</template>
-      </v-data-table>
-    </v-app>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="error" flat @click="close">ปิดหน้าต่าง</v-btn>
+            <v-btn color="primary" flat @click="save">บันทึก</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-toolbar>
+    <v-data-table :headers="headers" :items="medias" :search="search" class="elevation-1">
+      <template v-slot:items="props">
+        <!-- <td>{{ props.item.name }}</td> -->
+        <td class="text-xs-right">{{ props.item.media_type_id }}</td>
+        <td class="text-xs-right">{{ props.item.media_name }}</td>
+        <td class="text-xs-right">{{ props.item.amount }}</td>
+        <td class="text-xs-right">{{ props.item.link_google }}</td>
+        <!-- <td class="text-xs-right">{{ props.item.note }}</td> -->
+        <td class="justify-center layout px-0">
+          <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+          <v-icon small @click="deleteItem(props.item)">delete</v-icon>
+        </td>
+      </template>
+      <template v-slot:no-data>
+        <v-btn color="primary" @click="initialize">Reset</v-btn>
+      </template>
+      <template
+        v-slot:pageText="props"
+      >แถวที่ {{ props.pageStart }} - {{ props.pageStop }} จาก {{ props.itemsLength }}</template>
+    </v-data-table>
   </div>
 </template>
 <script>
@@ -251,12 +218,7 @@ export default {
     subject_code_list: [],
     major_list: [],
     minor_list: [],
-    media_type_list: [],
-    menu: [
-      { icon: "home", title: "หน้าหลัก", link: "/" },
-      { icon: "info", title: "แก้ไขข้อมูลส่วนตัว", link: "profile" }
-      // { icon: "key", title: "เข้าระบบ", link: "login" }
-    ]
+    media_type_list: []
   }),
 
   computed: {
@@ -402,10 +364,7 @@ export default {
       }
       this.close();
     },
-    doLogout() {
-      window.sessionStorage.clear();
-      return this.$router.replace("/login");
-    },
+
     show_lv() {
       console.log(this.editedItem.course_level);
     },

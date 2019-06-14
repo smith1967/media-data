@@ -85,9 +85,8 @@
   </v-layout>
 </template>
 <script>
-// import Menu from "~/components/menu";
 export default {
-  layout: "public",
+  // layout: "de",
   props: {
     source: "signin"
   },
