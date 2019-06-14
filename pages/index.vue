@@ -6,19 +6,24 @@
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{ item.title }}</v-btn>
-          <v-btn @click="doLogout">ออกจากระบบ</v-btn>
+          <!-- <v-btn @click="doLogout">ออกจากระบบ</v-btn> -->
         </v-toolbar-items>
         <v-menu class="hidden-md-and-up">
           <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
           <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{ item.title }}</v-btn>
-          <v-btn @click="doLogout">ออกจากระบบ</v-btn>
-          <!-- <v-list>
+          <!-- <v-btn @click="doLogout">ออกจากระบบ</v-btn> -->
+          <v-list>
             <v-list-tile v-for="item in menu" :key="item.icon" :to="item.link">
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-          </v-list>-->
+            <v-list-tile @click="doLogout">
+              <v-list-tile-content>
+                <v-list-tile-title>ออกจากระบบ</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
         </v-menu>
       </v-toolbar>
       <v-toolbar flat color="white">
@@ -249,8 +254,8 @@ export default {
     media_type_list: [],
     menu: [
       { icon: "home", title: "หน้าหลัก", link: "/" },
-      { icon: "info", title: "ลงทะเบียน", link: "signin" },
-      { icon: "key", title: "เข้าระบบ", link: "login" }
+      { icon: "info", title: "แก้ไขข้อมูลส่วนตัว", link: "profile" }
+      // { icon: "key", title: "เข้าระบบ", link: "login" }
     ]
   }),
 
@@ -267,13 +272,7 @@ export default {
   },
 
   created() {
-    if (window.sessionStorage.getItem("user")) {
-      let user = window.sessionStorage.getItem("user");
-      let data = JSON.parse(user);
-      console.log(data);
-      this.editedItem.citizen_id = data.citizen_id;
-      console.log("citizen_id", this.editedItem.citizen_id);
-    }
+    this.getCitizenID();
     this.initialize();
     // console.log("citizen_id ", window.sessionStorage.getItem("citizen_id"));
   },
@@ -284,6 +283,15 @@ export default {
       // this.medias = [];
       this.getMediaType();
       this.getMedia();
+    },
+    getCitizenID() {
+      if (window.sessionStorage.getItem("user")) {
+        let user = window.sessionStorage.getItem("user");
+        let data = JSON.parse(user);
+        console.log(data);
+        this.editedItem.citizen_id = data.citizen_id;
+        console.log("citizen_id", this.editedItem.citizen_id);
+      }
     },
     async getSubjectType() {
       let url = "https://api.cstc.ac.th/subject_type";
@@ -358,10 +366,11 @@ export default {
     },
 
     async save() {
+      this.getCitizenID();
       if (this.editedIndex > -1) {
-        // update
-        console.log(this.editedItem);
-        if (this.editedItem.citizen_id == "") return;
+        // // update
+        // console.log(this.editedItem);
+        // if (this.editedItem.citizen_id == "") return;
 
         // return;
         let res = await fetch("https://api.cstc.ac.th/api/media/", {
