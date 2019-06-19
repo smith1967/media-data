@@ -8,17 +8,15 @@
     </v-toolbar-items>
     <v-menu class="hidden-md-and-up">
       <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
-      <!-- <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{ item.title }}</v-btn>
-      <v-btn @click="doLogout" flat>ออกจากระบบ</v-btn>-->
       <v-list>
-        <v-list-tile v-for="item in menu" :key="item.icon" :to="item.link" @click="item.event">
+        <v-list-tile v-for="item in menu" :key="item.icon" :to="item.link">
           <v-list-tile-content>
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="doLogout">
+        <v-list-tile>
           <v-list-tile-content>
-            <v-list-tile-title>ออกจากระบบ</v-list-tile-title>
+            <v-list-tile-title @click="doLogout">ออกจากระบบ</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>

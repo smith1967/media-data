@@ -108,7 +108,7 @@
                   <!-- <v-text-field v-model="editedItem.note" label="หมายเหตุ"></v-text-field> -->
                 </v-flex>
                 <v-flex xs12 sm12 md12>
-                  <v-text-field v-model="editedItem.link_google" label="ลิ้งค์ข้อมูล"></v-text-field>
+                  <v-text-field v-model="editedItem.link_google" label="ลิ้งค์ข้อมูล" hint="แชร์จาก Google Drive หรือเว็บไซต์"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
                   <v-radio-group v-model="editedItem.e_training" @click="show_lv">
