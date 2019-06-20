@@ -15,128 +15,134 @@
           <!-- <v-btn color="primary" dark class="mb-2" v-on="on">เพิ่มข้อมูลสื่อ</v-btn> -->
         </template>
         <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-card-title>
+              <span class="headline">{{ formTitle }}</span>
+            </v-card-title>
 
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm6 md6>
-                  <v-radio-group v-model="editedItem.course_level" @click="show_lv" row>
-                    <v-radio label="ปวช." value="ปวช." name="course_level"></v-radio>
-                    <v-radio label="ปวส." value="ปวส." name="course_level"></v-radio>
-                  </v-radio-group>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field
-                    v-model="editedItem.citizen_id"
-                    v-show="false"
-                    label="รหัสบัตรประชาชน"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md6>
-                  <v-select
-                    :items="subject_type_list"
-                    label="ประเภทวิชา"
-                    v-model="editedItem.subject_type_id"
-                    item-text="subject_type_name"
-                    item-value="subject_type_id"
-                    @change="getMajor"
-                  ></v-select>
-                  <!-- <v-text-field v-model="editedItem.subject_type" label="ประเภทวิชา"></v-text-field> -->
-                </v-flex>
-                <v-flex xs12 sm6 md6>
-                  <v-autocomplete
-                    v-model="editedItem.major_id"
-                    :items="major_list"
-                    item-text="major_name"
-                    item-value="major_id"
-                    label="สาขาวิชา"
-                    @change="getMinor"
-                  ></v-autocomplete>
-                  <!-- <v-text-field v-model="editedItem.major_id" label="สาขาวิชา"></v-text-field> -->
-                </v-flex>
-                <v-flex xs12 sm6 md6>
-                  <v-autocomplete
-                    v-model="editedItem.minor_id"
-                    :items="minor_list"
-                    item-text="minor_name"
-                    item-value="minor_id"
-                    label="สาขางาน"
-                  ></v-autocomplete>
-                  <!-- <v-text-field v-model="editedItem.minor_id" label="สาขางาน"></v-text-field> -->
-                </v-flex>
-                <v-flex xs12 sm6 md6>
-                  <v-autocomplete
-                    v-model="editedItem.media_type_id"
-                    :items="media_type_list"
-                    item-text="media_type_name"
-                    item-value="media_type_id"
-                    :label="`ประเภทสื่อ`"
-                  ></v-autocomplete>
-                  <!-- <v-text-field v-model="editedItem.media_type" label="ประเภทสื่อ"></v-text-field> -->
-                </v-flex>
-                <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="editedItem.subject_code" label="รหัสวิชา"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md6>
-                  <v-text-field v-model="editedItem.subject_name" label="ชื่อวิชา"></v-text-field>
-                </v-flex>
+            <v-card-text>
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <v-flex xs12 sm6 md6>
+                    <v-radio-group v-model="editedItem.course_level" @click="show_lv" row>
+                      <v-radio label="ปวช." value="ปวช." name="course_level"></v-radio>
+                      <v-radio label="ปวส." value="ปวส." name="course_level"></v-radio>
+                    </v-radio-group>
+                  </v-flex>
+                  <!-- <v-flex xs12 sm12 md12>
+                    <v-text-field
+                      v-model="editedItem.citizen_id"
+                      v-show="false"
+                      label="รหัสบัตรประชาชน"
+                    ></v-text-field>
+                  </v-flex>-->
+                  <v-flex xs12 sm6 md6>
+                    <v-select
+                      :items="subject_type_list"
+                      label="ประเภทวิชา"
+                      v-model="editedItem.subject_type_id"
+                      item-text="subject_type_name"
+                      item-value="subject_type_id"
+                      @change="getMajor"
+                    ></v-select>
+                    <!-- <v-text-field v-model="editedItem.subject_type" label="ประเภทวิชา"></v-text-field> -->
+                  </v-flex>
+                  <v-flex xs12 sm6 md6>
+                    <v-autocomplete
+                      v-model="editedItem.major_id"
+                      :items="major_list"
+                      item-text="major_name"
+                      item-value="major_id"
+                      label="สาขาวิชา"
+                      @change="getMinor"
+                    ></v-autocomplete>
+                    <!-- <v-text-field v-model="editedItem.major_id" label="สาขาวิชา"></v-text-field> -->
+                  </v-flex>
+                  <v-flex xs12 sm6 md6>
+                    <v-autocomplete
+                      v-model="editedItem.minor_id"
+                      :items="minor_list"
+                      item-text="minor_name"
+                      item-value="minor_id"
+                      label="สาขางาน"
+                    ></v-autocomplete>
+                    <!-- <v-text-field v-model="editedItem.minor_id" label="สาขางาน"></v-text-field> -->
+                  </v-flex>
+                  <v-flex xs12 sm6 md6>
+                    <v-autocomplete
+                      v-model="editedItem.media_type_id"
+                      :items="media_type_list"
+                      item-text="media_type_name"
+                      item-value="media_type_id"
+                      :label="`ประเภทสื่อ`"
+                    ></v-autocomplete>
+                    <!-- <v-text-field v-model="editedItem.media_type" label="ประเภทสื่อ"></v-text-field> -->
+                  </v-flex>
+                  <v-flex xs12 sm6 md6>
+                    <v-text-field v-model="editedItem.subject_code" label="รหัสวิชา"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md6>
+                    <v-text-field v-model="editedItem.subject_name" label="ชื่อวิชา"></v-text-field>
+                  </v-flex>
 
-                <v-flex xs12 sm12 md12>
-                  <v-text-field v-model="editedItem.media_name" label="ชื่อผลงาน/สื่อการสอน"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-slider
-                    v-model="editedItem.amount"
-                    :min="1"
-                    :max="50"
-                    label="จำนวน"
-                    thumb-label
-                  ></v-slider>
-                  <!-- <v-text-field v-model="editedItem.amount" label="จำนวน"></v-text-field> -->
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-textarea
-                    name="input-7-1"
-                    label="หมายเหตุ"
-                    value
-                    hint="ข้อมูลเพิ่มเติม"
-                    v-model="editedItem.note"
-                  ></v-textarea>
-                  <!-- <v-text-field v-model="editedItem.note" label="หมายเหตุ"></v-text-field> -->
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text-field v-model="editedItem.link_google" label="ลิ้งค์ข้อมูล" hint="แชร์จาก Google Drive หรือเว็บไซต์"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-radio-group v-model="editedItem.e_training" @click="show_lv">
-                    <v-radio
-                      label="สื่อสามารถใช้งานเป็น E-Training ได้ทันที"
-                      value="ทันที"
-                      name="e_train"
-                    ></v-radio>
-                    <v-radio
-                      label="สื่อที่มีต้องพัฒนาเพิ่มเติมเพื่อเข้าระบบ E-Training"
-                      value="พัฒนาต่อ"
-                      name="e_train"
-                    ></v-radio>
-                  </v-radio-group>
-                </v-flex>
-                <!-- <v-flex xs12 sm6 md6>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field v-model="editedItem.media_name" label="ชื่อผลงาน/สื่อการสอน"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-slider
+                      v-model="editedItem.amount"
+                      :min="1"
+                      :max="50"
+                      label="จำนวน"
+                      thumb-label
+                    ></v-slider>
+                    <!-- <v-text-field v-model="editedItem.amount" label="จำนวน"></v-text-field> -->
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-textarea
+                      name="input-7-1"
+                      label="หมายเหตุ"
+                      value
+                      hint="ข้อมูลเพิ่มเติม"
+                      v-model="editedItem.note"
+                    ></v-textarea>
+                    <!-- <v-text-field v-model="editedItem.note" label="หมายเหตุ"></v-text-field> -->
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-text-field
+                      v-model="editedItem.link_google"
+                      label="ลิ้งค์ข้อมูล"
+                      hint="แชร์จาก Google Drive หรือเว็บไซต์"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12>
+                    <v-radio-group v-model="editedItem.e_training" @click="show_lv">
+                      <v-radio
+                        label="สื่อสามารถใช้งานเป็น E-Training ได้ทันที"
+                        value="ทันที"
+                        name="e_train"
+                      ></v-radio>
+                      <v-radio
+                        label="สื่อที่มีต้องพัฒนาเพิ่มเติมเพื่อเข้าระบบ E-Training"
+                        value="พัฒนาต่อ"
+                        name="e_train"
+                      ></v-radio>
+                    </v-radio-group>
+                  </v-flex>
+                  <!-- <v-flex xs12 sm6 md6>
                       
                     <v-text-field v-model="editedItem.e_training" label="E-training"></v-text-field>
-                </v-flex>-->
-              </v-layout>
-            </v-container>
-          </v-card-text>
+                  </v-flex>-->
+                </v-layout>
+              </v-container>
+            </v-card-text>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="error" flat @click="close">ปิดหน้าต่าง</v-btn>
-            <v-btn color="primary" flat @click="save">บันทึก</v-btn>
-          </v-card-actions>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="error" flat @click="close">ปิดหน้าต่าง</v-btn>
+              <v-btn color="primary" flat @click="save">บันทึก</v-btn>
+            </v-card-actions>
+          </v-form>
         </v-card>
       </v-dialog>
     </v-toolbar>
@@ -165,6 +171,7 @@
 <script>
 export default {
   data: () => ({
+    valid: false,
     search: "",
     dialog: false,
     course_level: "ปวช.",
@@ -234,7 +241,7 @@ export default {
   },
 
   created() {
-    this.getCitizenID();
+    // this.getCitizenID();
     this.initialize();
     // console.log("citizen_id ", window.sessionStorage.getItem("citizen_id"));
   },
@@ -250,9 +257,9 @@ export default {
       if (window.sessionStorage.getItem("user")) {
         let user = window.sessionStorage.getItem("user");
         let data = JSON.parse(user);
-        console.log(data);
-        this.editedItem.citizen_id = data.citizen_id;
-        console.log("citizen_id", this.editedItem.citizen_id);
+        // console.log(data);
+        return data.citizen_id;
+        // console.log("citizen_id", data.citizen_id);
       }
     },
     async getSubjectType() {
@@ -285,7 +292,7 @@ export default {
     },
     async getMedia() {
       console.log("media all");
-      let url = "https://api.cstc.ac.th/media/" + this.editedItem.citizen_id;
+      let url = "https://api.cstc.ac.th/media/" + this.getCitizenID();
       let res = await fetch(url);
       let data = await res.json();
       this.medias = data.media;
@@ -328,7 +335,7 @@ export default {
     },
 
     async save() {
-      this.getCitizenID();
+      this.editedItem.citizen_id = this.getCitizenID();
       if (this.editedIndex > -1) {
         // // update
         // console.log(this.editedItem);
