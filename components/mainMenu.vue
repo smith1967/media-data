@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="primary">
-    <v-toolbar-title>ระบบฐานข้อมูลสื่อการเรียนการสอน</v-toolbar-title>
+    <v-toolbar-title>ระบบฐ้อมูลสื่อการเรียนการสอน</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn v-for="item in menu" :key="item.icon" :to="item.link" flat>{{ item.title }}</v-btn>
