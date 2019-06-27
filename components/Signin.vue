@@ -103,7 +103,9 @@ export default {
     rules: {
       required: value => !!value || "กรุณากรอกข้อมูล",
       min: v => v.length >= 6 || "ความยาวไม่น้อยกว่า 6 ตัวอักษร",
-      password: v => /^[a-z]\w{5,}/.test(v) || "รหัสผ่านไม่ถูกต้อง",
+      password: v =>
+        /^[a-z]\w{5,}/.test(v) ||
+        "ต้องเริ่มต้นด้วยอักษรอักษรภาษาอังกฤษตัวพิมพ์เล็ก และประกอบด้วยอักษรภาษาอังกฤษและตัวเลขอย่างน้อย 6 ตัวอักษร",
       //   emailMatch: () => "The email and password you entered don't match",
       pid: v => /[0-9]{13}/.test(v) || "รหัสบัตรประชาชนไม่ถูกต้อง"
     },
@@ -155,6 +157,7 @@ export default {
           this.valid = true;
           this.alert = true;
           this.text_info = "บันทึกข้อมูลสำเร็จ";
+          this.$router.push("/login");
         } else {
           this.valid = false;
           this.alert = true;
@@ -163,7 +166,6 @@ export default {
         //1. จำ user /login
         //window.localStorage.setItem('user', JSON.stringify(res.data.user))// แบบนี้ เก็บถาวร
         // window.sessionStorage.setItem("user", JSON.stringify(data.user)); // แบบนี้หาย เมื่อ restart หรือ ปิด  browser
-        this.$router.push("/login");
       } else {
         console.log("form invalid");
       }
