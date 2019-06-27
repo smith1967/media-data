@@ -9,7 +9,7 @@
   </v-app>
 </template>
 <script>
-import Menu from "~/components/menu";
+import Menu from "~/components/Menu";
 export default {
   components: {
     Menu
@@ -18,13 +18,16 @@ export default {
     return {
       // user: {},
 
-      drawer: true
+      drawer: true,
+      isLogin: false
     };
   },
   created() {
     let user = window.sessionStorage.getItem("user"); // data is string
     if (!user) {
       return this.$router.replace("/login");
+    } else {
+      this.isLogin = true;
     }
     //  this.user = JSON.parse(user); // แปลงกลับเป็น object ถ้า
     // this.$router.replace("/signin")

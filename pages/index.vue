@@ -25,8 +25,8 @@
                 <v-layout wrap>
                   <v-flex xs12 sm6 md6>
                     <v-radio-group v-model="editedItem.course_level" @click="show_lv" row>
-                      <v-radio label="ปวช." value="ปวช." name="course_level"></v-radio>
-                      <v-radio label="ปวส." value="ปวส." name="course_level"></v-radio>
+                      <v-radio label="ปวช." value="2" name="course_level"></v-radio>
+                      <v-radio label="ปวส." value="3" name="course_level"></v-radio>
                     </v-radio-group>
                   </v-flex>
                   <!-- <v-flex xs12 sm12 md12>
@@ -50,7 +50,7 @@
                   <v-flex xs12 sm6 md6>
                     <v-autocomplete
                       v-model="editedItem.major_id"
-                      :items="major_list"
+                      :items="majorList"
                       item-text="major_name"
                       item-value="major_id"
                       label="สาขาวิชา"
@@ -174,7 +174,7 @@ export default {
     valid: false,
     search: "",
     dialog: false,
-    course_level: "ปวช.",
+    course_level: "2",
     headers: [
       // {
       //   text: "ที่",
@@ -193,7 +193,7 @@ export default {
     editedIndex: -1,
     editedItem: {
       citizen_id: "",
-      course_level: "ปวช.",
+      course_level: "2",
       subject_type_id: "",
       major_id: "",
       minor_id: "",
@@ -208,7 +208,7 @@ export default {
     },
     defaultItem: {
       citizen_id: "",
-      course_level: "ปวช.",
+      course_level: "2",
       subject_type_id: "",
       major_id: "",
       minor_id: "",
@@ -231,6 +231,15 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "เพิ่มข้อมูลสื่อ" : "แก้ไขข้อมูลสื่อ";
+    },
+    majorList() {
+      // return this.major_list.filter(function(m) {
+      //   return m.major_id.substring(0, 1) == this.editedItem.course_level;
+      // });
+      // return this.heroes.filter(hero => hero.franchise == this.search);
+      return this.major_list.filter(
+        m => m.major_id.substring(0, 1) == this.editedItem.course_level
+      );
     }
   },
 
