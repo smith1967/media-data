@@ -9,7 +9,7 @@
   </v-app>
 </template>
 <script>
-import Menu from "@/components/Menu";
+import Menu from "~/components/Menu";
 export default {
   components: {
     Menu
