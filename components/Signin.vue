@@ -116,7 +116,10 @@ export default {
     email: "",
     emailRules: [
       v => !!v || "กรุณาใส่อีเมล์",
-      v => /^[^@]+@[^@]+\.[^@]+$/.test(v) || "กรุณาใส่อีเมล์"
+      v =>
+        /^[a-zA-Z]+([\.-]?\w+)+@\w+([\.:]?\w+)+(\.[a-zA-Z0-9]{2,3})+$/.test(
+          v
+        ) || "กรุณาใส่อีเมล์"
     ],
     select: null,
     checkbox: false
@@ -138,9 +141,9 @@ export default {
           citizen_id: this.pid,
           fname: this.fname,
           lname: this.lname,
-          email: this.email,
+          email: this.email.trim(),
           school_id: this.school_id,
-          password: this.password
+          password: this.password.trim()
         };
         console.log(this.$refs.form);
         let res = await fetch("https://api.cstc.ac.th/api/signin/", {
